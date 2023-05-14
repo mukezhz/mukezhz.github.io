@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import BlogPreview from "../components/BlogPreview.astro";
+import Hero from "../components/Hero.astro";
+import Grid from "../components/Grid.astro";
+
+const projects = (await getCollection("blog")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="Blog | Mukesh Kumar Chaudhary"
+  description="Mukesh Kumar Chaudhary's most recent blogs"
+>
+  <div class="stack gap-20">
+    <main class="wrapper stack gap-10">
+      <Hero
+        title="My Blog"
+        tagline="See my most recent projects below to get an idea of my past experience."
+        align="start"
+      />
+      <Grid variant="small">
+        {
+          projects.map((project) => (
+            <li>
+              <BlogPreview project={project} />
+            </li>
+          ))
+        }
+      </Grid>
+    </main>
+    <ContactCTA />
+  </div>
+</BaseLayout>
