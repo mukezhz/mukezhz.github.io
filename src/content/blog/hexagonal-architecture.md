@@ -2,7 +2,7 @@
 title: Hexagonal Architecture
 publishDate: 2023-05-19 10:50:00
 img: /assets/clean_code/hexagonal_architecture.jpg
-img_alt: Iridescent ripples of a bright blue and pink liquid
+img_alt: Hexagonal Architecture
 author: Mukesh Kr. Chaudhary
 description: |
   Hexagonal Architecture/Ports and Adapters Architecture is a software design pattern that emphasizes the separation of core business logic from external dependencies. It uses ports and adapters to define clear boundaries, allowing the application to be flexible, testable, and maintainable.
