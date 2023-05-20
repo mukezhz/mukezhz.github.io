@@ -7,9 +7,9 @@ author: Mukesh Kr. Chaudhary
 description: |
   Renew the expired SSL certificate using certbot via preferred-challenge dns.
 tags:
-  - Architecture
-  - CleanCode
-  - TDD
+  - SSL
+  - K8s
+  - DNS
 ---
 
 ## Preferred-Challege DNS
