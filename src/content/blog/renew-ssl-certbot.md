@@ -1,6 +1,6 @@
 ---
 title: Renew SSL using Preferred-Challege DNS
-publishDate: 2023-05-19 10:50:00
+publishDate: 2022-10-10 10:50:00
 img: /assets/devops/lets_encrypt.svg
 img_alt: Renew SSL using Preferred-Challege DNS
 author: Mukesh Kr. Chaudhary
@@ -86,6 +86,23 @@ NEXT STEPS:
 
 ```
 $ kubectl apply -f secret.yml
+```
+
+**secret.yml**
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <secret name>
+  namespace: <namespace>
+type: kubernetes.io/tls
+data:
+  tls.crt: >-
+    LS0tLS1CRUdJTBZ0lTQkgvNk5DbkhJTG1XOXEydTgraUV2cGhaTUEwzRFFFQkN3VUEKTURJeEN6QUpCZ05WQkFZVES0t...LS0K
+  tls.key: >-
+    LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBbzJ0c1VPTTVoSlA0UmpNazBYTVBQ...tLQo=
+
 ```
 
 **NOTE:** we need to have base64 encoded text in single line
