@@ -2,13 +2,13 @@
 title: Hamro Chautari
 publishDate: 2022-06-08 02:00:00
 img: /assets/hamropatro/hamropatro.svg
-img_alt: Hamropatro's Logo
+img_alt: Hamropatro's Logo used at Hamro Chautari
 description: |
   Live audio/video chat around the world on Hamro Chautari.
 tags:
   - meet
   - chat
-  - nodejs
+  - hamropatro
 ---
 
 ## Hamro Chautari
