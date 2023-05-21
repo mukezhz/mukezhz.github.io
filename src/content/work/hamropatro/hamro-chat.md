@@ -1,6 +1,6 @@
 ---
 title: Hamro Chat
-publishDate: 2022-06-08 02:00:00
+publishDate: 2022-12-08 02:00:00
 img: /assets/hamropatro/hamropatro.svg
 img_alt: Hamropatro's Logo used at Hamro Chat
 description: |
