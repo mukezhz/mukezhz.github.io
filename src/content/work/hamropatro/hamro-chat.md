@@ -29,12 +29,16 @@ At first, the code was disaster multi-level interfaces which was doing the exact
 I refactored the code and made the code proper using hexagonal architecture.
 We developed the POC of hamro chat which has authentication, one to one private chat without using actual db(was using ArrayList). Later added group chat and demo worked.
 
-Architecture of Hamro Chat is:
+Basic Architecture of Hamro Chat is:
 
 ```
-+--------+                                +-------------+                                                    +----------+
-+ client + (subscribed to SSE service)--> + SSE service +(subscribe to micronaut using pubSub of Redis) ---> + Micronaut+ (listens redis pubSub and send the message on particular topic)
-+--------+                                +-------------+                                                    +----------+
+(subscribed to SSE service)              (listens redis pubSub and send the message on particular topic)
+            👆                                                     👆
+        +--------+               +-------------+              +-----------+
+        + client + ----------->  + SSE service + -----------> + Micronaut +
+        +--------+               +-------------+              +---------- +
+                                       👇
+                    (subscribe to micronaut using pubSub of Redis)
 ```
 
 As you can see we haven't used the webRTC or gRPC bidirection streaming. Instead we used Server Side Event. So, the streaming is unidirectional.
