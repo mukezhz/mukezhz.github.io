@@ -50,4 +50,4 @@ Hamro Chat is being used at:
 - Hamro Pay support chat section
 - Hamro Health support chat section
 
-Than you !!!
+Thank you !!!

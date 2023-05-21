@@ -44,4 +44,4 @@ The use of chautari are:
 
 **Note:** Its not directly available at Hamropato App if you are searching there
 
-Than you !!!
+Thank you !!!
