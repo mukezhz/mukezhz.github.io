@@ -28,6 +28,7 @@ At first, the code was disaster multi-level interfaces which was doing the exact
 
 I refactored the code and made the code proper using hexagonal architecture.
 We developed the POC of hamro chat which has authentication, one to one private chat without using actual db(was using ArrayList). Later added group chat and demo worked.
+Now it has scyllaDB as database and elasticsearch for message and inbox.
 
 Basic Architecture of Hamro Chat is:
 
