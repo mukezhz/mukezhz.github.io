@@ -26,16 +26,10 @@ Ans: You just seach firefox and download the executable file and install it and 
 - When we install software on our operating system, we are essentially setting up the necessary files, libraries, and configurations required for the software to run properly.
 - The installation process typically involves copying the software's files to specific locations on the disk, configuring the operating system to recognize and interact with the software, and sometimes installing additional dependencies that the software relies on.
 - Lets take an example of Firefox:
-  - If you are installing firefox on windows OS:
-    - You download a firefox installer executable
-    - You execute firefox installer
-    - If you have noticed you might see files are being copied to C:/Program File/firefox/...
-    - On copying files to C:/Program File/firefox your windows OS will know how a firefox can execute
-  - If you are installing firefox in \*nix OS:
-    - You download a firefox installer executable
-    - You execute firefox installer
-    - If you have noticed you might see that your firefox binary is at `/bin/firefox` (output of `$ which firefox`)
-    - As you might have guessed already, yep OS know the path `/bin/` so you can run the program
+  - If you are installing firefox on windows OS: - You download a firefox installer executable - You execute firefox installer - If you have noticed you might see files are being copied to C:/Program File/firefox/... - On copying files to C:/Program File/firefox your windows OS will know how a firefox can execute
+    <img src="/assets/program/firefox-installation-windows.jpg"/>
+  - If you are installing firefox in \*nix OS: - You download a firefox installer executable - You execute firefox installer - If you have noticed you might see that your firefox binary is at `/bin/firefox` (output of `$ which firefox`) - As you might have guessed already, yep OS know the path `/bin/` so you can run the program
+    <img src="/assets/program/firefox-installation-linux.jpg"/>
 - In sort; in installation phase OS just copy the necessary files which are required to run the program to a specific location or folder so that now you can run the program
 
 ### Execution
