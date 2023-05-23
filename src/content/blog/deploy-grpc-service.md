@@ -15,7 +15,7 @@ tags:
 # Contour
 
 - Contour is an ingress controller which deliver request from domain to respective service.
-- It is opensource ingress controller alternative to most popular nginx.
+- It is open source ingress controller alternative to most popular nginx.
 
 ### Installation
 

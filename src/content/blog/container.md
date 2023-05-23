@@ -12,7 +12,7 @@ tags:
   - docker
 ---
 
-## Containerization
+### Containerization
 
 **Containerization refers to the process of creating and running containers.** Containers???
 
@@ -23,7 +23,7 @@ Container are isolated and self-contained units that encapsulate an application 
 
 **Note:**: please read [how appliction execute](./how-application-execute) to understand container properly.
 
-## Container
+### Container
 
 - a lightweight and isolated executable unit that packages an application along with all its dependencies, including libraries, frameworks, and system tools
 - provides a consistent and reproducible environment for running software across different systems, regardless of the underlying infrastructure.

@@ -16,7 +16,7 @@ tags:
 
 #### aka. Ports and Adapters Architecture
 
-##### LTDR;
+**LTDR;**
 
 **Hexagonal Architecture** helps in **structuring** a software application by **providing clear and well-defined boundaries** between **different layers and components**. It promotes a **modular and decoupled design**, where the **core business logic is isolated from external dependencies**.
 
