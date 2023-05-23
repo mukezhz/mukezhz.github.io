@@ -44,7 +44,7 @@ Container are isolated and self-contained units that encapsulate an application 
   - allows applications to handle increased traffic and scale seamlessly as demand fluctuates
 - **Efficiency**
   - have minimal overhead because they share the host system's kernel and resources
-  - tart quickly and use fewer system resources compared to traditional virtualization approaches, resulting in better resource utilization and improved overall system performance
+  - start quickly and use fewer system resources compared to traditional virtualization approaches, resulting in better resource utilization and improved overall system performance
 - **Versioning and Reproducibility**
   - built from Docker images or any other platform , which are versioned and can be shared and reproduced across different environments
   - ensures consistent behavior and eliminates the "it works on my machine" problem, making it easier to collaborate and deploy applications reliably
