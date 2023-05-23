@@ -30,8 +30,9 @@ FOSS refers to software that is not only free to use but also allows users to ac
 
 #### Four Essentials Freedoms:
 
-**Freedom to:** 0. to run the program,
+**Freedom to:**
 
+0. to run the program,
 1. to study and change the program in source code form,
 2. to redistribute exact copies, and
 3. to distribute modified versions.
