@@ -12,7 +12,7 @@ tags:
   - DNS
 ---
 
-## Preferred Challege DNS
+## Preferred Challenge DNS
 
 **Renew certificate once the certificate expires**
 
