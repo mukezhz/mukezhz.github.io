@@ -90,7 +90,7 @@ We will do the same in case of docker to run..
 - Pull the image from the repo.
 
   ```bash
-    $ docker pull <image:tag>
+  $ docker pull <image:tag>
   ```
 
 - Start or Run the image.
