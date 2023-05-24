@@ -64,6 +64,9 @@ const { Content } = await entry.render();
 </BaseLayout>
 
 <style>
+  img {
+    max-width: 100%;
+  }
   .date {
     font-size: 0.875rem;
     margin: 0;
@@ -100,7 +103,7 @@ const { Content } = await entry.render();
   }
 
   .content {
-    max-width: 75ch;
+    max-width: 100%;
     margin-inline: auto;
   }
 
@@ -160,6 +163,13 @@ const { Content } = await entry.render();
 
     .content :global(blockquote) {
       font-size: var(--text-2xl);
+    }
+    .content {
+      max-width: 90%;
+      margin-inline: auto;
+    }
+    img {
+      max-width: 50%;
     }
   }
 </style>
