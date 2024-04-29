@@ -1,6 +1,6 @@
-![Astro Nano](_astro_nano.png)
+# Mukesh Kumar Chaudhary Portfolio
 
-Astro Nano is a static, minimalist, lightweight, lightning fast portfolio and blog theme.
+Build using Astro Nano is a static, minimalist, lightweight, lightning fast portfolio and blog theme.
 
 Built with Astro, Tailwind and Typescript, an no frameworks.
 
