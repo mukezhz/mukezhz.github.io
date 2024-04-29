@@ -42,6 +42,10 @@ export const SOCIALS: Socials = [
     HREF: "https://linkedin.com/in/mukezhz",
   },
   { 
+    NAME: "medium",
+    HREF: "https://mukezhz.medium.com",
+  },
+  { 
     NAME: "telegram",
     HREF: "https://telegram.dog/mukezhz",
   }
