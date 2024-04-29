@@ -8,8 +8,8 @@ position: "Software Engineer"
     class="about-image"
     width="400"
     height="400"
-    src="/assets/looking.jpg"
-    alt="Mukesh Kumar Chaudhary at Bhoos KTM JS Meetup"
+    src="/assets/like.jpg"
+    alt="Mukesh Kumar Chaudhary at Chapakharka Lalitpur"
 />
 
 ## Introduction
