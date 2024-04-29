@@ -1,52 +1,36 @@
 ---
-title: "Hamro Chat"
+title: "Yomiuri Chat"
 description: "Chat with your friends, family and colleagues."
-date: "Sep 06 2022"
-demoURL: "https://chat.hamropatro.com"
+date: "Sep 03 2024"
+demoURL: "https://chat.yc-otodoke.com"
 repoURL: ""
 tags:
-  - meet
+  - "CS chat"
   - chat
-  - hamropatro
+  - wesionaryTEAM
 ---
 
-<img src="/assets/hamropatro/hamropatro.svg" alt="hamro chat" width="200" height="200">
+<img src="/assets/wesionaryTEAM/yc.png" alt="hamro chat" width="200" height="200">
 
-[Hamro Chat](https://chat.hamropatro.com) is like Facebook Messenger(which is private chat in Hamro Chat) and Facebook page's chat(which is app's chat) where the admin/moderator's of a page can respond to ther user message.
-It is developed using Micronaut's Grpc(Java Framework), Svelte(Javascript Library), Redis, ScyllaDB (Database), Elasticsearch, Kafka.
+[YC Chat](https://chat.yc-otodoke.com) is chat application for the customer support of the japanese news company Yomiuri.
+It is developed using Golang, ReactJS, Flutter, Appsync and Serverless [Lambda-NodeJS]. In database we have used dynamoDB and Opensearch.
 
-We have used micronaut because all the other product at Hamropatro uses Micronaut. Yes most of the product at Hamropatro is in Java language.
-If you have read my [about](/about) you will know that I had learned the Java before joining the college. But after doing python 2nd sem I stopped doing Java because of python is coolest language. But I have to do the project here in Java which I found boring at first. I also get motivation from the CEO that Java is also cool give it a try. So I tried the backend in Java (senor helped me a lot here). When I got familiar with Micronaut Dependency Injection, I immediately felt in love with Java. I was like how can it be so awesome. So I started searching about architecture of project. I wanted to make project structure in such a way that later it can be changed to microservices. On searching and asking with Engineering Manager I got to know about [hexagonal architecture](/blog/hexagonal-architecture).
+**Note:** website won't work you need to have certificate ie. private key in your system to access the website.
 
-I haven't heard about hexagonal architecture before this project. I was learning hexagonal architecture and micronaut and developing the project at the same time which was hectic but I think I learn many things at that time.
-Oh I forgot, I hadn't done the gRPC and multi-module before, I was also learning about gRPC, gradle multi-module.
+There was a requirement to fetch the unread count and read all the chat message at once. This was a challenging problem since we need to do a complex query in opensearch to fetch the unread count. Because of our nested data structure in Opensearch it was taking longer time than we have expected. So we change the data structure and make it less nested which took less time than before. Still it was not meeting our criteria while doing performance test. Infact Opensearch was being shut down due to heavy load. 
 
-I used to tell my friend about those tools whether they are interested on listening or not haha.
+**Note:** we have used the AWS managed opensearch which should auto scale, but it was not being scaled automatically. 
 
-At first, the code was disaster multi-level interfaces which was doing the exactly same things. I asked many question to one of the Engineering Manager of Hamropatro. He explained me about hexagonal architecture, he also reviewed my code and gave suggestion.
+So we spin up two ec2 instance and setup opensearch and connected two opensearch with each other and change the read queue size from 1000(default read queue size of opensearch) to 5000. On doing so opensearch was able to handle the load although it was taking few more time than before. It was great achievement for us.
 
-I refactored the code and made the code proper using hexagonal architecture.
-We developed the POC of hamro chat which has authentication, one to one private chat without using actual db(was using ArrayList). Later added group chat and demo worked.
-Now it has scyllaDB as database and elasticsearch for message and inbox.
-
-Basic Architecture of Hamro Chat is:
-
-```
-(subscribed to SSE service)              (listens redis pubSub and send the message on particular topic)
-            👆                                                     👆
-        +--------+               +-------------+              +-----------+
-        + client + ----------->  + SSE service + -----------> + Micronaut +
-        +--------+               +-------------+              +---------- +
-                                       👇
-                    (subscribe to micronaut using pubSub of Redis)
-```
-
-As you can see we haven't used the webRTC or gRPC bidirection streaming. Instead we used Server Side Event. So, the streaming is unidirectional.
-
-Hamro Chat is being used at:
-
-- For Personal Chat
-- Hamro Pay support chat section
-- Hamro Health support chat section
+Finding from this project:
+- if you need to handle huge amount of load and your server is your bottle neck. Just use the queue which have high throughput. Because handling request with few second of delay is way than server not responding.
+- Don't use too much nested structure. Since we were using appsync which uses graphql it was very easy to play around with nested data structure in reality nested structure just slow your performance if you need response in realtime.
+- if you are doing query in Opensearch if you need exact match in string please use `.keyword` else it would send inconsistent result. Example: it was matching the following uuid
+  - 066250ac-0174-4ef1-`b8d4`-c1a95dcb9be9
+  - d539dc77-a9be-4b3d-`b8d4`-4c2dcda090db
+- you can use logs.FilterPattern to fetch the error from cloudwatch.
+- dynamodb does scale well but opensearch will be bottle neck because you can't modify read queue size if you use the AWS managed service.
+- invest your time in research for the tech stack.
 
 Thank you !!!
