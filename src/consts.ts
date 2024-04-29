@@ -23,6 +23,11 @@ export const WORK: Metadata = {
   DESCRIPTION: "Mukesh Kumar Chaudhary Work | Where I have worked and what I have done.",
 };
 
+export const ABOUT: Metadata = {
+  TITLE: "About",
+  DESCRIPTION: "Mukesh Kumar Chaudhary Work | Who I am.",
+};
+
 export const PROJECTS: Metadata = {
   TITLE: "Projects",
   DESCRIPTION: "Mukesh Kumar Chaudhary Projects | A collection of my projects, with links to repositories and demos.",
