@@ -10,8 +10,6 @@ tags:
   - docker
 ---
 
-### Containerization
-
 <img src="/assets/devops/container.svg" width="300" height="200">
 
 **Containerization refers to the process of creating and running containers.** Containers???

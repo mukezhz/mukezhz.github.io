@@ -9,8 +9,6 @@ tags:
   - devops
 ---
 
-## Docker
-
 **Wiki**: Docker is a set of platform as a service (PaaS) products that use OS-level virtualization to deliver software in packages called [containers](/blog/container). The service has both free and premium tiers. The software that hosts the containers is called Docker Engine. It was first started in 2013 and is developed by Docker, Inc.
 
 **I have already written the blog on [container](/blog/container).** Today this is all about "Docker" which really popularize or revolutionized the container technology.
