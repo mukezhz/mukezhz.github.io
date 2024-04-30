@@ -1,8 +1,8 @@
 ---
-title: "Yomiuri Chat"
-description: "Chat with your friends, family and colleagues."
+title: "Chat System for Customer Support"
+description: "Chat application for CSR."
 date: "Sep 03 2024"
-demoURL: "https://chat.yc-otodoke.com"
+demoURL: ""
 repoURL: ""
 tags:
   - "CS chat"
@@ -10,9 +10,9 @@ tags:
   - wesionaryTEAM
 ---
 
-<img src="/assets/wesionaryTEAM/yc.png" alt="hamro chat" width="200" height="200">
+<img src="/assets/wesionaryTEAM/csr.png" alt="csr chat system" width="200" height="200">
 
-[YC Chat](https://chat.yc-otodoke.com) is chat application for the customer support of the japanese news company Yomiuri.
+[Chat System for CSR](https://chat.yc-otodoke.com) is chat application for the customer support.
 It is developed using Golang, ReactJS, Flutter, Appsync and Serverless [Lambda-NodeJS]. In database we have used dynamoDB and Opensearch.
 
 **Note:** website won't work you need to have certificate ie. private key in your system to access the website.
