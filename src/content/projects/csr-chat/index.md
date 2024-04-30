@@ -12,7 +12,7 @@ tags:
 
 <img src="/assets/wesionaryTEAM/csr.png" alt="csr chat system" width="200" height="200">
 
-[Chat System for CSR](https://chat.yc-otodoke.com) is chat application for the customer support.
+Chat System for CSR is chat application for the customer support.
 It is developed using Golang, ReactJS, Flutter, Appsync and Serverless [Lambda-NodeJS]. In database we have used dynamoDB and Opensearch.
 
 **Note:** website won't work you need to have certificate ie. private key in your system to access the website.
