@@ -3,12 +3,11 @@ name: "Mukesh Kumar Chaudhary"
 position: "Software Engineer"
 ---
 
-
 <img
     class="about-image"
     width="400"
     height="400"
-    src="/assets/like.jpg"
+    src="/assets/like.webp"
     alt="Mukesh Kumar Chaudhary at Chapakharka Lalitpur"
 />
 
