@@ -17,7 +17,12 @@ function sanitizeTitle(title) {
     .replace(/(^-|-$)/g, "");
 }
 
-async function saveMarkdownFile(filename, post, content) {
+function replaceBrWithNewline(html) {
+  return html.replace(/<br\s*\/?>/gi, "\n");
+}
+
+async function saveMarkdownFile(filename, post) {
+  let content = html2md(replaceBrWithNewline(post.content));
   const dirPath = path.join(
     process.cwd(),
     "src",
@@ -58,9 +63,8 @@ link: "${post.link}"
 async function main() {
   const posts = await fetchMediumPosts();
   for (const post of posts) {
-    const md = html2md(post.content);
     const sanitizedTitle = sanitizeTitle(post.title);
-    await saveMarkdownFile(sanitizedTitle, post, md);
+    await saveMarkdownFile(sanitizedTitle, post);
   }
 }
 
