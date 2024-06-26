@@ -1,0 +1,53 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { MEDIUM } from "@consts";
+
+const data = (await getCollection("medium"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+type Acc = {
+  [year: string]: CollectionEntry<"medium">[];
+};
+
+const posts = data.reduce((acc: Acc, post) => {
+  console.log(post.data.date);
+  const year = (new Date(post.data.date)).getFullYear().toString();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
+---
+
+<PageLayout title={MEDIUM.TITLE} description={MEDIUM.DESCRIPTION}>
+  <Container>
+    <div class="space-y-10">
+      <div class="animate font-semibold text-black dark:text-white">Blog</div>
+      <div class="space-y-4">
+        {
+          years.map((year) => (
+            <section class="animate space-y-4">
+              <div class="font-semibold text-black dark:text-white">{year}</div>
+              <div>
+                <ul class="flex flex-col gap-4">
+                  {posts[year].map((post) => (
+                    <li>
+                      <ArrowCard entry={post} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</PageLayout>

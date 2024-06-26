@@ -18,6 +18,11 @@ export const BLOG: Metadata = {
   DESCRIPTION: "Mukesh Kumar Chaudhary | A collection of articles on topics I am passionate about.",
 };
 
+export const MEDIUM: Metadata = {
+  TITLE: "Medium",
+  DESCRIPTION: "Mukesh Kumar Chaudhary | A collection of articles from medium.",
+};
+
 export const WORK: Metadata = {
   TITLE: "Work",
   DESCRIPTION: "Mukesh Kumar Chaudhary Work | Where I have worked and what I have done.",
