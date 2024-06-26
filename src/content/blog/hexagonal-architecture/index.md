@@ -7,6 +7,7 @@ tags:
   - Architecture
   - CleanCode
   - TDD
+image: "/assets/clean_code/hexagonal_architecture.jpg"
 ---
 <img src="/assets/clean_code/hexagonal_architecture.jpg" width="600" height="300">
 

@@ -7,6 +7,7 @@ tags:
   - SSL
   - K8s
   - DNS
+image: "/assets/devops/lets_encrypt.svg"
 ---
 <img src="/assets/devops/lets_encrypt.svg" width="300" height="200"/>
 

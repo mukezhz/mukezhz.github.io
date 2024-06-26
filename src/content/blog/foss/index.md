@@ -7,6 +7,7 @@ tags:
   - foss
   - philosophy
   - software
+image: "/assets/software/gnu.svg"
 ---
 
 # Free and Open Source Software

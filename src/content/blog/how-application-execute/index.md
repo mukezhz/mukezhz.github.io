@@ -7,6 +7,7 @@ tags:
   - docker
   - container
   - devops
+image: "/assets/devops/program.svg"
 ---
 <img src="/assets/devops/program.svg" width="300" height="200"/>
 

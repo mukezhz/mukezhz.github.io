@@ -1,6 +1,7 @@
 ---
 name: "Mukesh Kumar Chaudhary"
 position: "Software Engineer"
+image: "/assets/like.webp"
 ---
 
 <img

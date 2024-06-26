@@ -15,7 +15,7 @@ const about = await Promise.all(
 );
 ---
 
-<PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+<PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION} image={about[0].data.image}>
   <Container>
     <div class="space-y-10">
       <div class="animate font-semibold text-black dark:text-white">

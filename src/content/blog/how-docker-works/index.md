@@ -7,6 +7,7 @@ tags:
   - docker
   - container
   - devops
+image: "/assets/devops/docker-architecture.png"
 ---
 <img src="/assets/devops/docker-architecture.png" width="300" height="200"/>
 

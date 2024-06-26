@@ -21,8 +21,22 @@ function replaceBrWithNewline(html) {
   return html.replace(/<br\s*\/?>/gi, "\n");
 }
 
+function extractImgSrc(html) {
+  const imgSrcRegex = /<img[^>]+src="([^">]+)"/g;
+  const srcValues = [];
+  let match;
+
+  while ((match = imgSrcRegex.exec(html)) !== null) {
+    srcValues.push(match[1]);
+  }
+  return srcValues;
+}
+
 async function saveMarkdownFile(filename, post) {
-  let content = html2md(replaceBrWithNewline(post.content));
+  const htmlContent = replaceBrWithNewline(post.content);
+  const images = extractImgSrc(htmlContent);
+
+  let content = html2md(htmlContent);
   const dirPath = path.join(
     process.cwd(),
     "src",
@@ -49,6 +63,7 @@ tags:
   - Medium
   - ${post.categories.join("\n  - ")}
 link: "${post.link}"
+image: "${images?.[0] || ""}"
 ---
 ` + content;
 

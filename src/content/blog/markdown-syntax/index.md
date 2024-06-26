@@ -2,6 +2,7 @@
 title: "Markdown syntax guide"
 description: "Get started writing content in markdown."
 date: "Jan 17 2022"
+image: "./spongebob.webp"
 ---
 
 ---
