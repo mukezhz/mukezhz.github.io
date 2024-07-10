@@ -1,5 +1,7 @@
 # Mukesh Kumar Chaudhary Portfolio
 
+[![Deploy Astro site to Pages](https://github.com/mukezhz/mukezhz.github.io/actions/workflows/astro.yaml/badge.svg)](https://github.com/mukezhz/mukezhz.github.io/actions/workflows/astro.yaml)
+
 Build using Astro Nano is a static, minimalist, lightweight, lightning fast portfolio and blog theme.
 
 Built with Astro, Tailwind and Typescript, an no frameworks.
