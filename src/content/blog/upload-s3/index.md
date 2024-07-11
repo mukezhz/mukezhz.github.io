@@ -137,6 +137,36 @@ I will be using fastapi docs which will fill the value of `bucket_name`, `object
 - On Navigating to the s3 bucket. You can see the uploaded file
 ![see the uploaded file](/assets/aws/s3/mukezhz-bucket.png)
 
+### But what about uploading from Browser?
+- You might get CORS issue.
+- In order to allow browser to upload you need to allow CORS in s3 bucket
+- Navigate to s3 bucket
+![navigate to s3 bucket permission](/assets/aws/s3/s3-permission.png)
+- Scroll below you will see Cross origin resource sharing(CORS) section
+![Cross origin resource sharing(CORS) section](/assets/aws/s3/s3-cors.png)
+- Edit it and add the following content
+```json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 3000
+    }
+]
+```
+
+**NOTE:** I have allowed all the origins you might allow certain domain only for security reasons
+
 ### Let's access the file
 - Fill the file_name (ie. object_name) 
 ![accessing image from presigned url](/assets/aws/s3/generate-presigned-url-to-get.png)
