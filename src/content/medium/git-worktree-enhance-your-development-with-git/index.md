@@ -88,42 +88,46 @@ Suppose you have:
 
 * main branch where your project is working in production with v1.0.1
 
-// main branch code  
-  
-// main.go file code  
-package main  
-  
-import "fmt"  
-  
-func main() {  
-Feature()  
-fmt.Println("Production v1.0.0")  
-}  
-  
-  
-// feature.go file code  
-package main  
-  
-import "fmt"  
-  
-func Feature() {  
-fmt.Println("feature")  
+```
+// main branch code
+
+// main.go file code
+package main
+
+import "fmt"
+
+func main() {
+  Feature()
+  fmt.Println("Production v1.0.0")
 }
+
+
+// feature.go file code
+package main
+
+import "fmt"
+
+func Feature() {
+ fmt.Println("feature")
+}
+```
 
 * you created a branch from main and working in feature A branch.
 
-// feature A branch code  
-package main  
-  
-import "fmt"  
-  
-func main() {  
-fmt.Println("Production v1.0.0")  
-}  
-  
-func featureA() {  
-fmt.Println("feature A")  
+```
+// feature A branch code
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Println("Production v1.0.0")
 }
+
+func featureA() {
+  fmt.Println("feature A")
+}
+```
 
 In main branch. The version should be v1.0.1 but it’s critical bug it’s v1.0.0 .
 
@@ -149,14 +153,16 @@ And inside that branch you will get the main branch code.
 
 Now change the code:
 
-// main branch code  
-package main  
-  
-import "fmt"  
-  
-func main() {  
-fmt.Println("Production v1.0.1")  
+```
+// main branch code
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Println("Production v1.0.1")
 }
+```
 
 Then add, commit and push the code to your main branch after hotfix.
 
@@ -172,18 +178,20 @@ Not commit your code of feature A branch and pull the main branch and merge in f
 
 Final code:
 
-// final code of feature A branch  
-package main  
-  
-import "fmt"  
-  
-func main() {  
-fmt.Println("Production v1.0.1")  
-}  
-  
-func featureA() {  
-fmt.Println("feature A")  
+```
+// final code of feature A branch
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Println("Production v1.0.1")
 }
+
+func featureA() {
+  fmt.Println("feature A")
+}
+```
 
 For demo you can watch: [https://youtu.be/fMdiAWgkfDA](https://youtu.be/fMdiAWgkfDA)
 

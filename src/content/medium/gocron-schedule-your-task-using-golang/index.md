@@ -67,16 +67,18 @@ Yes I choose option 3 because it is easy and we don’t need to re-invent the wh
 
 * It is go function which needs to be execute by the Job.
 
-gocron.NewTask(  
-func(a string, b int) {  
-// do things  
-},  
-"hello",  
-1,  
-),  
-  
-a and b are the parameter  
+```
+gocron.NewTask(
+   func(a string, b int) {
+    // do things
+   },
+   "hello",
+   1,
+  ),
+
+a and b are the parameter
 we are passing "hello" and 1 to the function
+```
 
 **Job:**
 
@@ -106,106 +108,118 @@ we are passing "hello" and 1 to the function
 
 * Install the gocron package
 
+```
 go get github.com/go-co-op/gocron/v2
+```
 
 * Create an instance of scheduler
 
+```
 s, err := gocron.NewScheduler()
+```
 
 * Create a task:
 
-task := gocron.NewTask(  
-func(a string, b int) {  
-// do things  
-},  
-"hello",  
-1,  
+```
+task := gocron.NewTask(
+ func(a string, b int) {
+  // do things
+ },
+ "hello",
+ 1,
 )
+```
 
 * Assign a task to job:
 
-j, err := s.NewJob(  
-gocron.DurationJob(  
-10\*time.Second,  
-),  
-gocron.NewTask(task),  
+```
+j, err := s.NewJob(
+ gocron.DurationJob(
+  10*time.Second,
+ ),
+ gocron.NewTask(task),
 )
+```
 
 * start the schedule
 
+```
 s.Start()
+```
 
 **Let’s implement for the following case:**
 
 — The task need to run every 12am each day and timezone is Asia/Kathmandu.
 
-package main  
-  
-import (  
-"fmt"  
-"time"  
-  
-"github.com/go-co-op/gocron/v2"  
-)  
-  
-func main() {  
-// time location of Asia/Kathmandu  
-ktmLocation, err := time.LoadLocation("Asia/Kathmandu")  
-if err != nil {  
-// handle error  
-}  
-  
-// create a scheduler  
-// assign time to our location  
-s, err := gocron.NewScheduler(  
-gocron.WithLocation(  
-ktmLocation,  
-),  
-)  
-if err != nil {  
-// handle error  
-}  
-  
-task := gocron.NewTask(  
-func(a string, b int) {  
-// do things  
-// your business logic  
-},  
-"hello",  
-1,  
-)  
-  
-// cron tab which run at 12am  
-// 2nd argument boolean is used for enhance cron  
-// check below for detail  
-jobType := gocron.CronJob(  
-"0 0 \* \* \*",  
-false,  
-)  
-  
-// add a job to the scheduler  
-j, err := s.NewJob(jobType, task)  
-if err != nil {  
-// handle error  
-}  
-  
-// each job has a unique id  
-fmt.Println(j.ID())  
-  
-// start the scheduler  
-s.Start()  
-  
-// block until you are ready to shut down  
-select {  
-case <-time.After(time.Minute):  
-}  
-  
-// when you're done, shut it down  
-err = s.Shutdown()  
-if err != nil {  
-// handle error  
-}  
+```
+package main
+
+import (
+ "fmt"
+ "time"
+
+ "github.com/go-co-op/gocron/v2"
+)
+
+func main() {
+  // time location of Asia/Kathmandu
+  ktmLocation, err := time.LoadLocation("Asia/Kathmandu")
+  if err != nil {
+  // handle error
+ }
+
+ // create a scheduler
+ // assign time to our location
+ s, err := gocron.NewScheduler(
+  gocron.WithLocation(
+   ktmLocation,
+  ),
+ )
+ if err != nil {
+  // handle error
+ }
+
+ task := gocron.NewTask(
+  func(a string, b int) {
+   // do things
+   // your business logic
+  },
+  "hello",
+  1,
+ )
+
+ // cron tab which run at 12am
+ // 2nd argument boolean is used for enhance cron
+ // check below for detail
+ jobType := gocron.CronJob(
+   "0 0 * * *",
+   false,
+ )
+
+ // add a job to the scheduler
+ j, err := s.NewJob(jobType, task)
+ if err != nil {
+  // handle error
+ }
+
+ // each job has a unique id
+ fmt.Println(j.ID())
+
+ // start the scheduler
+ s.Start()
+
+ // block until you are ready to shut down
+ select {
+ case <-time.After(time.Minute):
+ }
+
+ // when you're done, shut it down
+ err = s.Shutdown()
+ if err != nil {
+  // handle error
+ }
 }
+```
 
 Finished. Its really simple right.
 

@@ -71,46 +71,50 @@ Before this lets talk about protocol buffer.
 
 Syntax of protocol buffer: todo.proto
 
-syntax="proto3";  
-  
-package proto.v1;  
-  
-// after build go package github.com/mukezhz/learn/golang/grpc/todo/pb will be created  
-option go\_package = "github.com/mukezhz/learn/golang/grpc/todo/pb";  
-  
-// DTO of todo creation request  
-message CreateTodoRequest {  
-string name = 1;  
-string description = 2;  
-bool done = 3;  
-}  
-  
-// DTO of todo creation response  
-message CreateTodoResponse {  
-string name = 1;  
-string description = 2;  
-bool done = 3;  
-string id = 4;  
-}  
-  
-// Method related to Todo  
-service TodoService {  
-rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {}  
+```
+syntax="proto3";
+
+package proto.v1;
+
+// after build go package github.com/mukezhz/learn/golang/grpc/todo/pb will be created
+option go_package = "github.com/mukezhz/learn/golang/grpc/todo/pb";
+
+// DTO of todo creation request
+message CreateTodoRequest {
+   string name = 1;
+   string description = 2;
+   bool done = 3;
 }
+
+// DTO of todo creation response
+message CreateTodoResponse {
+   string name = 1;
+   string description = 2;
+   bool done = 3;
+   string id = 4;
+}
+
+// Method related to Todo
+service TodoService {
+   rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {}
+}
+```
 
 As you can see protocol buffer is really clear and strict about type. And for api call client does need to have a proto file as well as server need to have same proto file.
 
 Using proto file we are able to generate types for **marshaling** and **unmarshaling** types for different language for example if you consider a type generation from above proto file. You will be getting something like below:
 
-type CreateTodoRequest struct {  
-state protoimpl.MessageState  
-sizeCache protoimpl.SizeCache  
-unknownFields protoimpl.UnknownFields  
-  
-Name string \`protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"\`  
-Description string \`protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"\`  
-Done bool \`protobuf:"varint,3,opt,name=done,proto3" json:"done,omitempty"\`  
+```
+type CreateTodoRequest struct {
+ state         protoimpl.MessageState
+ sizeCache     protoimpl.SizeCache
+ unknownFields protoimpl.UnknownFields
+
+ Name        string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+ Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+ Done        bool   `protobuf:"varint,3,opt,name=done,proto3" json:"done,omitempty"`
 }
+```
 
 > converting message to struct → unmarshaling
 
@@ -130,15 +134,17 @@ Done bool \`protobuf:"varint,3,opt,name=done,proto3" json:"done,omitempty"\`
 
 In order to generate go files which have type we use the following command:
 
-SRC\_DIR=proto  
-DST\_DIR=pb  
-  
-protoc -I${SRC\_DIR} \\  
-\--go\_out=${DST\_DIR} --go\_opt=paths=source\_relative \\  
-proto/\*.proto  
-  
-  
-\# This will generate todo.pg.go file. My all proto files are in proto folder.
+```
+SRC_DIR=proto
+DST_DIR=pb
+
+protoc -I${SRC_DIR} \
+  --go_out=${DST_DIR} --go_opt=paths=source_relative \
+  proto/*.proto
+
+
+# This will generate todo.pg.go file. My all proto files are in proto folder.
+```
 
 **NOTE: — go\_out flag is used for this**
 
@@ -152,28 +158,32 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 Again its easy you just need to do the following:
 
-SRC\_DIR=proto  
-DST\_DIR=pb  
-  
-protoc -I${SRC\_DIR} \\  
-\--go-grpc\_out=${DST\_DIR} --go-grpc\_opt=paths=source\_relative \\  
-proto/\*.proto  
-  
-\# This will generate todo\_grpc.pg.go file. My all proto files are in proto folder.
+```
+SRC_DIR=proto
+DST_DIR=pb
+
+protoc -I${SRC_DIR} \
+  --go-grpc_out=${DST_DIR} --go-grpc_opt=paths=source_relative \
+  proto/*.proto
+
+# This will generate todo_grpc.pg.go file. My all proto files are in proto folder.
+```
 
 **NOTE: — go-gprc\_out flag is used for this**
 
 Generally we would be combining both flag like below:
 
-SRC\_DIR=proto  
-DST\_DIR=pb  
-  
-protoc -I${SRC\_DIR} \\  
-\--go\_out=${DST\_DIR} --go\_opt=paths=source\_relative \\  
-\--go-grpc\_out=${DST\_DIR} --go-grpc\_opt=paths=source\_relative \\  
-proto/\*.proto  
-  
-\# This will generate todo.pb.go and todo\_grpc.pb.go file. My all proto files are in proto folder.
+```
+SRC_DIR=proto
+DST_DIR=pb
+
+protoc -I${SRC_DIR} \
+  --go_out=${DST_DIR} --go_opt=paths=source_relative \
+  --go-grpc_out=${DST_DIR} --go-grpc_opt=paths=source_relative \
+  proto/*.proto
+
+# This will generate todo.pb.go and todo_grpc.pb.go file. My all proto files are in proto folder.
+```
 
 **Up to now we have got:**
 
@@ -185,99 +195,105 @@ proto/\*.proto
 * interface that defines the methods that can be implemented on the server.
 * This would be an interface with methods corresponding to each RPC method defined in the service.
 
-type TodoServiceServer interface {  
-CreateTodo(context.Context, \*CreateTodoRequest) (\*CreateTodoResponse, error)  
-mustEmbedUnimplementedTodoServiceServer()  
-}  
-  
-// UnimplementedTodoServiceServer must be embedded to have forward compatible implementations.  
-type UnimplementedTodoServiceServer struct {  
+```
+type TodoServiceServer interface {
+ CreateTodo(context.Context, *CreateTodoRequest) (*CreateTodoResponse, error)
+ mustEmbedUnimplementedTodoServiceServer()
 }
+
+// UnimplementedTodoServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTodoServiceServer struct {
+}
+```
 
 **Client Interface:**
 
 * a client stub is generated which can be used in client applications to make calls to the server.
 * This stub provides methods that you can call directly in your client code, abstracting away the details of how the data is sent and received over the network
 
-type TodoServiceClient interface {  
-CreateTodo(ctx context.Context, in \*CreateTodoRequest, opts ...grpc.CallOption) (\*CreateTodoResponse, error)  
-}  
-  
-type todoServiceClient struct {  
-cc grpc.ClientConnInterface  
-}  
-  
-func NewTodoServiceClient(cc grpc.ClientConnInterface) TodoServiceClient {  
-return &todoServiceClient{cc}  
-}  
-  
-func (c \*todoServiceClient) CreateTodo(ctx context.Context, in \*CreateTodoRequest, opts ...grpc.CallOption) (\*CreateTodoResponse, error) {  
-out := new(CreateTodoResponse)  
-err := c.cc.Invoke(ctx, TodoService\_CreateTodo\_FullMethodName, in, out, opts...)  
-if err != nil {  
-return nil, err  
-}  
-return out, nil  
+```
+type TodoServiceClient interface {
+ CreateTodo(ctx context.Context, in *CreateTodoRequest, opts ...grpc.CallOption) (*CreateTodoResponse, error)
 }
+
+type todoServiceClient struct {
+ cc grpc.ClientConnInterface
+}
+
+func NewTodoServiceClient(cc grpc.ClientConnInterface) TodoServiceClient {
+ return &todoServiceClient{cc}
+}
+
+func (c *todoServiceClient) CreateTodo(ctx context.Context, in *CreateTodoRequest, opts ...grpc.CallOption) (*CreateTodoResponse, error) {
+ out := new(CreateTodoResponse)
+ err := c.cc.Invoke(ctx, TodoService_CreateTodo_FullMethodName, in, out, opts...)
+ if err != nil {
+  return nil, err
+ }
+ return out, nil
+}
+```
 
 As you can see the client interface has been implemented. We just need to implement the server interface method.
 
 On implementing the server interface your server is able to handle the gRPC request. This is similar to normal http server implementation. Here is the implementation:
 
-// on generating the todo\_grpc there you can find this need to be embedded for forward compatibility so we are embedding it  
-type TodoServer struct {  
-todo.UnimplementedTodoServiceServer  
-  
-service TodoService  
-}  
-  
-// model for the todo  
-type TodoModel struct {  
-ID uint  
-Name string  
-Description string  
-Done bool  
-}  
-  
-// say already have service and repository layer to save it.  
-  
-// implementing the server interface  
-func (s \*server) CreateTodo(ctx context.Context, req \*todo.CreateTodoRequest) (\*todo.CreateTodoResponse, error) {  
-log.Printf("Received: %v", req.GetName())  
-// add logic to save todo in your database  
-t := s.service.SaveTodo(  
-TodoModel {  
-Name: req.GetName(),  
-Description: req.GetDescription(),  
-Done: req.GetDone(),  
-},  
-)  
-  
-return &todo.CreateTodoResponse{Id: t.ID, Name: t.Name, Description: t.Description), Done: t.Done}, nil  
-}  
-  
-func runGRPC() {  
-// listening tcp connection in 50051  
-lis, err := net.Listen("tcp", ":50051")  
-if err != nil {  
-log.Fatalf("failed to listen: %v", err)  
-}  
-// createing a gRPC server which has no service registered and has not started to accept requests yet.  
-s := grpc.NewServer()  
-  
-// registering the todo service to the server we have generated  
-todo.RegisterTodoServiceServer(s, &TodoServer{})  
-log.Printf("server listening at %v", lis.Addr())  
-  
-// Serve accepts incoming connections on the listener lis, creating a new ServerTransport and service goroutine for each.  
-if err := s.Serve(lis); err != nil {  
-log.Fatalf("failed to serve: %v", err)  
-}  
-}  
-  
-func main() {  
-runGRPC()  
+```
+// on generating the todo_grpc there you can find this need to be embedded for forward compatibility so we are embedding it
+type TodoServer struct {
+    todo.UnimplementedTodoServiceServer
+
+    service TodoService
 }
+
+// model for the todo
+type TodoModel struct {
+ ID          uint
+ Name        string
+ Description string
+ Done        bool
+}
+
+// say already have service and repository layer to save it.
+
+// implementing the server interface
+func (s *server) CreateTodo(ctx context.Context, req *todo.CreateTodoRequest) (*todo.CreateTodoResponse, error) {
+    log.Printf("Received: %v", req.GetName())
+    // add logic to save todo in your database
+    t := s.service.SaveTodo(
+     TodoModel {
+      Name: req.GetName(),
+      Description: req.GetDescription(),
+      Done: req.GetDone(),
+     },
+    )
+
+    return &todo.CreateTodoResponse{Id: t.ID, Name: t.Name, Description: t.Description), Done: t.Done}, nil
+}
+
+func runGRPC() {
+    // listening tcp connection in 50051
+    lis, err := net.Listen("tcp", ":50051")
+    if err != nil {
+        log.Fatalf("failed to listen: %v", err)
+    }
+    // createing a gRPC server which has no service registered and has not started to accept requests yet.
+    s := grpc.NewServer()
+
+    // registering the todo service to the server we have generated
+    todo.RegisterTodoServiceServer(s, &TodoServer{})
+    log.Printf("server listening at %v", lis.Addr())
+
+    // Serve accepts incoming connections on the listener lis, creating a new ServerTransport and service goroutine for each.
+    if err := s.Serve(lis); err != nil {
+        log.Fatalf("failed to serve: %v", err)
+    }
+}
+
+func main() {
+ runGRPC()
+}
+```
 
 As simple as that just this much of code for creating the gRPC server.
 
@@ -306,51 +322,55 @@ This is possible via gRPC gateway 🕶️. We will be implementing our business 
 
 We just need to modify few thing in proto:
 
-syntax="proto3";  
-  
-package proto.v1;  
-  
-option go\_package = "github.com/mukezhz/learn/golang/grpc/todo/pb";  
-  
-// this annotation.proto is required for the gRPC gateway  
-import "google/api/annotations.proto";  
-  
-  
-message CreateTodoRequest {  
-string name = 1;  
-string description = 2;  
-bool done = 3;  
-}  
-  
-message CreateTodoResponse {  
-string name = 1;  
-string description = 2;  
-bool done = 3;  
-string id = 4;  
-}  
-  
-service TodoService {  
-// /v1/todo is mapped to CreateTodo method  
-rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {  
-option (google.api.http) = {  
-post: "/v1/todo"  
-body: "\*"  
-};  
-}  
+```
+syntax="proto3";
+
+package proto.v1;
+
+option go_package = "github.com/mukezhz/learn/golang/grpc/todo/pb";
+
+// this annotation.proto is required for the gRPC gateway
+import "google/api/annotations.proto";
+
+
+message CreateTodoRequest {
+   string name = 1;
+   string description = 2;
+   bool done = 3;
 }
+
+message CreateTodoResponse {
+   string name = 1;
+   string description = 2;
+   bool done = 3;
+   string id = 4;
+}
+
+service TodoService {
+ // /v1/todo is mapped to CreateTodo method
+   rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {
+      option (google.api.http) = {
+        post: "/v1/todo"
+        body: "*"
+      };
+    }
+}
+```
 
 Now generate the gateway file using following command:
 
-SRC\_DIR=proto  
-DST\_DIR=pb  
-  
-protoc -I${SRC\_DIR} \\  
-\--go\_out=${DST\_DIR} --go\_opt=paths=source\_relative \\  
-\--go-grpc\_out=${DST\_DIR} --go-grpc\_opt=paths=source\_relative \\  
-\--grpc-gateway\_out=${DST\_DIR} \\  
-\--grpc-gateway\_opt paths=source\_relative \\  
-\--grpc-gateway\_opt generate\_unbound\_methods=true \\  
-proto/\*.proto
+```
+SRC_DIR=proto
+DST_DIR=pb
+
+protoc -I${SRC_DIR} \
+  --go_out=${DST_DIR} --go_opt=paths=source_relative \
+  --go-grpc_out=${DST_DIR} --go-grpc_opt=paths=source_relative \
+  --grpc-gateway_out=${DST_DIR} \
+  --grpc-gateway_opt paths=source_relative \
+  --grpc-gateway_opt generate_unbound_methods=true \
+  proto/*.proto
+```
 
 **NOTE: If you are using protoc for file generation you need to explicitly annotations.proto file which you can find**[**here**](https://github.com/googleapis/googleapis/blob/master/google/api/annotations.proto)**.**
 
@@ -360,34 +380,36 @@ Instead of using protoc we can use the buf. buf can install dependency if you sp
 
 In buf you just need to write the yaml file and you will be getting same stuffs what you are getting using protoc. Install the buf and generate config file using buf mod init build.buf/mukezhz/todo
 
-\# content of: buf.gen.yaml  
-version: v1  
-plugins:  
-\- plugin: go  
-out: gen/go  
-opt:  
-\- paths=source\_relative  
-\- plugin: go-grpc  
-out: gen/go  
-opt:  
-\- paths=source\_relative  
-\- plugin: grpc-gateway  
-out: gen/go  
-opt:  
-\- paths=source\_relative  
-\- generate\_unbound\_methods=true  
-  
-\# content of: buf.yaml  
-version: v1  
-name: buf.build/mukezhz/todo  
-deps:  
-\- buf.build/googleapis/googleapis  
-breaking:  
-use:  
-\- FILE  
-lint:  
-use:  
-\- DEFAULT
+```
+# content of: buf.gen.yaml
+version: v1
+plugins:
+  - plugin: go
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - plugin: go-grpc
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - plugin: grpc-gateway
+    out: gen/go
+    opt:
+      - paths=source_relative
+      - generate_unbound_methods=true
+
+# content of: buf.yaml
+version: v1
+name: buf.build/mukezhz/todo
+deps:
+  - buf.build/googleapis/googleapis
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+```
 
 Generate the go file from proto: buf gen
 
@@ -396,35 +418,37 @@ There won’t be much changes in our implementation we just need to:
 * Implement the gRPC server interface \[Already DONE\]
 * Listen the HTTP request and map the request to the gRPC method
 
-func runHTTP() error {  
-  
-ctx := context.Background()  
-ctx, cancel := context.WithCancel(ctx)  
-defer cancel()  
-  
-mux := runtime.NewServeMux()  
-// gRPC client to call the method  
-opts := \[\]grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}  
-// registering the mux to the gRPC endpoint where it is running  
-err := pb.RegisterTodoServiceHandlerFromEndpoint(ctx, mux, "localhost:50051", opts)  
-if err != nil {  
-return err  
-}  
-log.Println("HTTP server listening on port 8081")  
-return http.ListenAndServe(":8081", mux)  
-}  
-  
-func main() {  
-// running gRPC in go thread  
-go runGRPC()  
-// running HTTP server in go thread  
-go runHTTP() {  
-if err := run(); err != nil {  
-grpclog.Fatal(err)  
-}  
-}()  
-select {} // Block main from exiting  
+```
+func runHTTP() error {
+
+ ctx := context.Background()
+ ctx, cancel := context.WithCancel(ctx)
+ defer cancel()
+
+ mux := runtime.NewServeMux()
+ // gRPC client to call the method
+ opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+ // registering the mux to the gRPC endpoint where it is running
+ err := pb.RegisterTodoServiceHandlerFromEndpoint(ctx, mux, "localhost:50051", opts)
+ if err != nil {
+  return err
+ }
+ log.Println("HTTP server listening on port 8081")
+ return http.ListenAndServe(":8081", mux)
 }
+
+func main() {
+  // running gRPC in go thread
+ go runGRPC()
+ // running HTTP server in go thread
+ go runHTTP() {
+  if err := run(); err != nil {
+   grpclog.Fatal(err)
+  }
+ }()
+ select {} // Block main from exiting
+}
+```
 
 Now when you hit POST req to the endpoint [http://localhost:8081/v1/todo](http://localhost:8081/v1/todo)
 

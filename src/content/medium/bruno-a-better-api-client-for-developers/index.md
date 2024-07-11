@@ -60,14 +60,16 @@ A Bru file is made up of blocks. There are three kinds of blocks
 
 **1\. Dictionary block**
 
-get {  
-url: https://api.textlocal.in/send  
-}  
-headers {  
-content-type: application/json  
-Authorization: Bearer 123  
-~transaction-id: {{transactionId}}  
+```
+get {
+  url: https://api.textlocal.in/send
 }
+headers {
+  content-type: application/json
+  Authorization: Bearer 123
+  ~transaction-id: {{transactionId}}
+}
+```
 
 Any key in the dictionary block can be prefixed with ~ to indicate that it is disabled.
 
@@ -75,17 +77,21 @@ Any key in the dictionary block can be prefixed with ~ to indicate that it is di
 
 A text block is a set of lines
 
-tests {  
-expect(res.status).to.equal(200);  
+```
+tests {
+  expect(res.status).to.equal(200);
 }
+```
 
 **3\. Array block**
 
-vars:secret \[  
-access\_key,  
-access\_secret,  
-~transactionId  
-\]
+```
+vars:secret [
+  access_key,
+  access_secret,
+  ~transactionId
+]
+```
 
 For more information: [**Language Design**](https://docs.usebruno.com/bru-language-design.html)
 
@@ -95,40 +101,52 @@ Bru has something called tag. It provide some meaning to the bruno. Few tags are
 
 **1\. meta:** Store metadata about your request
 
-meta {  
-name: Get users,  
-type: http  
-seq: 1  
+```
+meta {
+  name: Get users,
+  type: http
+  seq: 1
 }
+```
 
-**type**: can be either http or graphql.  
-**seq**: is used to store the sequence number.  
-This decides the sort position of your request in the UI.  
-\[which request should run first.\]
+```
+type: can be either http or graphql.
+seq: is used to store the sequence number. 
+This decides the sort position of your request in the UI.
+[which request should run first.]
+```
 
 **2\. get:** Make a GET http call
 
-get {  
-url: https://api.github.com/users/usebruno  
+```
+get {
+  url: https://api.github.com/users/usebruno
 }
+```
 
 **3\. post:** Make a POST http call
 
-post {  
-url: https://api.github.com/users/usebruno  
+```
+post {
+  url: https://api.github.com/users/usebruno
 }
+```
 
 **4\. put:** Make a PUT http call
 
-put {  
-url: https://api.github.com/users/usebruno  
+```
+put {
+  url: https://api.github.com/users/usebruno
 }
+```
 
 **5\. delete:** Make a DELETE http call
 
-delete {  
-url: https://api.github.com/users/usebruno  
+```
+delete {
+  url: https://api.github.com/users/usebruno
 }
+```
 
 For more information: [**Bru Tag Reference**](https://docs.usebruno.com/bru-language-tag-reference.html)
 
@@ -156,8 +174,10 @@ Below are the list of inbuilt libraries that you can import in your scripts.
 
 Example:
 
-const { nanoid } = require("nanoid");  
+```
+const { nanoid } = require("nanoid");
 req.setHeader("transaction-id", nanoid());
+```
 
 **External Libraries**
 
@@ -165,13 +185,15 @@ For external library install the library using npm then include in script or tes
 
 Example: npm i @faker-js/faker
 
-const { faker } = require('@faker-js/faker');  
-const randomName = faker.name.fullName();  
-const randomEmail = faker.internet.email();  
-req.setBody({  
-name: randomName,  
-email: randomEmail  
+```
+const { faker } = require('@faker-js/faker');
+const randomName = faker.name.fullName();
+const randomEmail = faker.internet.email();
+req.setBody({
+  name: randomName,
+  email: randomEmail
 });
+```
 
 You are allowed to use **top level** await of javascript in script or test.
 
@@ -187,15 +209,17 @@ Some of the benefits of testing:
 
 Example:
 
-test("should be able to login", function() {  
-const data = res.getBody();  
-expect(res.getStatus()).to.equal(200);  
-});  
-  
-test("should receive the token", function() {  
-const data = res.getBody();  
-expect(data.token).to.be.a('string');  
+```
+test("should be able to login", function() {
+  const data = res.getBody();
+  expect(res.getStatus()).to.equal(200);
 });
+
+test("should receive the token", function() {
+  const data = res.getBody();
+  expect(data.token).to.be.a('string');
+});
+```
 
 They have included lots of example and their docs is pretty small. You can read whole docs in like 15 to 20 min. Just read the whole docs thoroughly.
 
@@ -207,7 +231,9 @@ To get started with bruno you need to have [node js](https://nodejs.org/en) inst
 
 After installing nodeJS. **Install the bruno:**
 
+```
 npm install -g @usebruno/cli
+```
 
 **Go to the project which has the REST API implemented.**
 
@@ -226,41 +252,47 @@ Add bruno.json so that bruno know **the folder** api_test **is a collection**.
 * Create bruno.json file: touch bruno.json
 * Add the following content in bruno.json
 
-{  
-"version": "1",  
-"name": "example rest api test",  
-"type": "collection"  
+```
+{
+  "version": "1",
+  "name": "example rest api test",
+  "type": "collection"
 }
+```
 
 **For faster REST API development I am going to use**[**json-server**](https://github.com/typicode/json-server)**.**
 
 * **Install** json-server: npm install -g json-server
 * **Create an** employeeDB.json **file and add following content**: touch employeeDB.json
 
-{  
-"employees": \[  
-{  
-"id": 1,  
-"name": "Ram",  
-"salary": "10000"  
-},  
-{  
-"id": 2,  
-"name": "Bob",  
-"salary": "8000"  
-}  
-\]  
+```
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "Ram",
+      "salary": "10000"
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "salary": "8000"
+    }
+  ]
 }
+```
 
 * **Create a routes.json and add the following content:** touch routes.json
 
-{  
-"/employees/list": "/employees",  
-"/employees/get/:id": "/employees/:id",  
-"/employees/create": "/employees",  
-"/employees/update/:id": "/employees/:id",  
-"/employees/delete/:id": "/employees/:id"  
+```
+{
+  "/employees/list": "/employees",
+  "/employees/get/:id": "/employees/:id",
+  "/employees/create": "/employees",
+  "/employees/update/:id": "/employees/:id",
+  "/employees/delete/:id": "/employees/:id"
 }
+```
 
 > The above routes.json file is aliasing the default route to the custom route. Aliasing the route is violating the standard of REST architecture endpoint naming convention but helping us to learn.
 
@@ -277,139 +309,149 @@ navigating to /employees/list
 * Add the following content in list\_employee.bru to **get the list of employees** and **test if the status is 200** and **result has of length 2**. touch employee\_bruno/list\_employee.bru
 * Then run the bru: bru run employee\_bruno
 
-meta {  
-name: List Employee  
-type: http  
-seq: 1  
-}  
-get {  
-url: http://localhost:8000/employees/list  
-}  
-headers {  
-content-type: application/json  
-}  
-script:pre-request {  
-console.log("Before the api hit!!!");  
-console.log("We can get the token or anything which require for the api");  
-}  
-script:post-response {  
-console.log(res.getBody())  
-console.log("After the api hit!!!");  
-console.log("We can set the token or anything which require for the api");  
-}  
-tests {  
-test("should have response status 200", function() {  
-expect(res.getStatus()).to.equal(200);  
-});  
-test("should have employees length 2", function() {  
-const data = res.getBody();  
-expect(data.length).to.equal(2);  
-});  
+```
+meta {
+  name: List Employee
+  type: http
+  seq: 1
 }
+get {
+  url: http://localhost:8000/employees/list
+}
+headers {
+  content-type: application/json
+}
+script:pre-request {
+  console.log("Before the api hit!!!");
+  console.log("We can get the token or anything which require for the api");
+}
+script:post-response {
+  console.log(res.getBody())
+  console.log("After the api hit!!!");
+  console.log("We can set the token or anything which require for the api");
+}
+tests {
+  test("should have response status 200", function() {
+      expect(res.getStatus()).to.equal(200);
+  }); 
+  test("should have employees length 2", function() {
+      const data = res.getBody();
+      expect(data.length).to.equal(2);
+  });
+}
+```
 
 * Add the following content in get\_employee.bru to **get the employee from id** and **test if the status is 200**. touch employee\_bruno/get\_employee.bru
 
-meta {  
-name: Get Employee  
-type: http  
-seq: 2  
-}  
-get {  
-url: http://localhost:8000/employees/get/1  
-}  
-script:post-response {  
-console.log(res.getBody())  
-}  
-tests {  
-test("should have response status 200", function() {  
-expect(res.getStatus()).to.equal(200);  
-});  
+```
+meta {
+  name: Get Employee
+  type: http
+  seq: 2
 }
+get {
+  url: http://localhost:8000/employees/get/1
+}
+script:post-response {
+  console.log(res.getBody())
+}
+tests {
+  test("should have response status 200", function() {
+      expect(res.getStatus()).to.equal(200);
+  });
+}
+```
 
 * Add the following content in create\_employee.bru to **create the employee and test if the status is 201** and **created employee has id 3**. touch employee\_bruno/create\_employee.bru
 
-meta {  
-name: Create Employee  
-type: http  
-seq: 3  
-}  
-post {  
-url: http://localhost:8000/employees/create  
-}  
-headers {  
-content-type: application/json  
-}  
-body {  
-{  
-"id": 3,  
-"name": "Marry",  
-"salary": 20000  
-}  
-}  
-script:post-response {  
-console.log(res.getBody())  
-}  
-tests {  
-test("should have response status 201", function() {  
-expect(res.getStatus()).to.equal(201);  
-});  
-test("should have employee id 3", function() {  
-const data = res.getBody();  
-expect(data.id).to.equal(3);  
-});  
+```
+meta {
+  name: Create Employee
+  type: http
+  seq: 3
 }
+post {
+  url: http://localhost:8000/employees/create
+}
+headers {
+  content-type: application/json
+}
+body {
+  {
+    "id": 3,
+    "name": "Marry",
+    "salary": 20000
+  }
+}
+script:post-response {
+  console.log(res.getBody())
+}
+tests {
+  test("should have response status 201", function() {
+      expect(res.getStatus()).to.equal(201);
+  });
+  test("should have employee id 3", function() {
+      const data = res.getBody();
+      expect(data.id).to.equal(3);
+  });
+}
+```
 
 * Add the following content in update\_employee.bru to **update the employee** and **test if the status is 200 and employee name is Max**. touch employee\_bruno/update\_employee.bru
 
-meta {  
-name: Update Employee  
-type: http  
-seq: 4  
-}  
-put {  
-url: http://localhost:8000/employees/update/3  
-}  
-headers {  
-content-type: application/json  
-}  
-body {  
-{  
-"id": 3,  
-"name": "Max",  
-"salary": 20000  
-}  
-}  
-script:post-response {  
-console.log(res.getBody())  
-}  
-tests {  
-test("should have response status 200", function() {  
-expect(res.getStatus()).to.equal(200);  
-});  
-test("should have employee name Max", function() {  
-const data = res.getBody();  
-expect(data.name).to.equal("Max");  
-});  
+```
+meta {
+  name: Update Employee
+  type: http
+  seq: 4
 }
+put {
+  url: http://localhost:8000/employees/update/3
+}
+headers {
+  content-type: application/json
+}
+body {
+  {
+    "id": 3,
+    "name": "Max",
+    "salary": 20000
+  }
+}
+script:post-response {
+  console.log(res.getBody())
+}
+tests {
+  test("should have response status 200", function() {
+      expect(res.getStatus()).to.equal(200);
+  });
+  test("should have employee name Max", function() {
+      const data = res.getBody();
+      expect(data.name).to.equal("Max");
+  });
+}
+```
 
 * Add the following content in delete\_employee.bru to **delete the employee by ID** and **test if status is 200**. touch employee\_bruno/delete\_employee.bru
 
-meta {  
-name: Delete Employee  
-type: http  
-seq: 5  
-}  
-delete {  
-url: http://localhost:8000/employees/delete/1  
-}  
-script:post-response {  
-console.log("DELETED!!!");  
-}  
-tests {  
-test("should have response status 200", function() {  
-expect(res.getStatus()).to.equal(200);  
-});  
+```
+meta {
+  name: Delete Employee
+  type: http
+  seq: 5
 }
+delete {
+  url: http://localhost:8000/employees/delete/1
+}
+script:post-response {
+  console.log("DELETED!!!");
+}
+tests {
+  test("should have response status 200", function() {
+      expect(res.getStatus()).to.equal(200);
+  });
+}
+```
 
 **Above test is nice but I want something like**
 
@@ -425,9 +467,11 @@ Lets dig in:
 * **Create an environments directory**: mkdir environments
 * **Create an** Employee.bru **file inside the folder then add the following:** touch environments/Employee.bru
 
-vars {  
-baseUrl: http://localhost:8000  
+```
+vars {
+  baseUrl: http://localhost:8000
 }
+```
 
 * Since we are first creating the employee so adding seq: 1. Also to **get the value of baseUrl** while running the bru we **pass the**\--env:
 
@@ -435,97 +479,103 @@ bru run employee\_bruno\_better --env Employee
 
 Add the following in create\_employee.bru inside employee\_bruno\_better
 
-meta {  
-name: Create Employee  
-type: http  
-seq: 1  
-}  
-post {  
-url: {{baseUrl}}/employees/create  
-}  
-headers {  
-content-type: application/json  
-}  
-body {  
-{  
-"id": 3,  
-"name": "Marry",  
-"salary": 20000  
-}  
-}  
-script:post-response {  
-bru.setVar("id", res.getBody().id);  
-bru.setVar("createdEmployee", res.getBody());  
-}  
-tests {  
-test("should have response status 201", function() {  
-expect(res.getStatus()).to.equal(201);  
-});  
-test("should have employee id 3", function() {  
-const data = res.getBody();  
-expect(data.id).to.equal(3);  
-});  
+```
+meta {
+  name: Create Employee
+  type: http
+  seq: 1
 }
+post {
+  url: {{baseUrl}}/employees/create
+}
+headers {
+  content-type: application/json
+}
+body {
+  {
+    "id": 3,
+    "name": "Marry",
+    "salary": 20000
+  }
+}
+script:post-response {
+  bru.setVar("id", res.getBody().id);
+  bru.setVar("createdEmployee", res.getBody());
+}
+tests {
+  test("should have response status 201", function() {
+      expect(res.getStatus()).to.equal(201);
+  });
+  test("should have employee id 3", function() {
+      const data = res.getBody();
+      expect(data.id).to.equal(3);
+  });
+}
+```
 
 * The above is simple **lets use the external library faker** and use it to fill the name field:
 * Install the faker library: npm i @faker-js/faker
 
-meta {  
-name: Create Employee  
-type: http  
-seq: 1  
-}  
-post {  
-url: {{baseUrl}}/employees/create  
-}  
-headers {  
-content-type: application/json  
-}  
-script:pre-request {  
-const { faker } = require('@faker-js/faker');  
-const randomName = faker.name.fullName();  
-req.setBody({  
-"id": 3,  
-"name": randomName,  
-"salary": 20000  
-})  
-}  
-script:post-response {  
-bru.setVar("id", res.getBody().id);  
-bru.setVar("createdEmployee", res.getBody());  
-}  
-tests {  
-test("should have response status 201", function() {  
-expect(res.getStatus()).to.equal(201);  
-});  
-test("should have employee id 3", function() {  
-const data = res.getBody();  
-expect(data.id).to.equal(3);  
-});  
+```
+meta {
+  name: Create Employee
+  type: http
+  seq: 1
 }
+post {
+  url: {{baseUrl}}/employees/create
+}
+headers {
+  content-type: application/json
+}
+script:pre-request {
+  const { faker } = require('@faker-js/faker');
+  const randomName = faker.name.fullName();
+  req.setBody({
+    "id": 3,
+    "name": randomName,
+    "salary": 20000
+  })
+}
+script:post-response {
+  bru.setVar("id", res.getBody().id);
+  bru.setVar("createdEmployee", res.getBody());
+}
+tests {
+  test("should have response status 201", function() {
+      expect(res.getStatus()).to.equal(201);
+  });
+  test("should have employee id 3", function() {
+      const data = res.getBody();
+      expect(data.id).to.equal(3);
+  });
+}
+```
 
 * Similarly to get the employee with the **id 3** we can add the following in get\_employee.bru: Note: **id** has been set by the above bru file.
 
-meta {  
-name: Get Employee  
-type: http  
-seq: 3  
-}  
-get {  
-url: {{baseUrl}}/employees/get/{{id}}  
-}  
-script:pre-request {  
-const e = bru.getVar("createdEmployee");  
-console.log(typeof(e), e)  
-}  
-script:post-response {  
-console.log("RES::", res.getBody())  
-}  
-tests {  
-test("should have response status 200", function() {  
-expect(res.getStatus()).to.equal(200);  
-});  
+```
+meta {
+  name: Get Employee
+  type: http
+  seq: 3
 }
+get {
+  url: {{baseUrl}}/employees/get/{{id}}
+}
+script:pre-request {
+  const e = bru.getVar("createdEmployee");
+  console.log(typeof(e), e)
+}
+script:post-response {
+  console.log("RES::", res.getBody())
+}
+tests {
+  test("should have response status 200", function() {
+      expect(res.getStatus()).to.equal(200);
+  });
+}
+```
 
 Now push the file in the repo. You can use the **environment variable of OS** or **.env file** for the variable as well. Please read the docs about [DotEnv File](https://docs.usebruno.com/secrets-management/dotenv-file.html) and [Secret Variables.](https://docs.usebruno.com/secrets-management/secret-variables.html) so that you don’t push the credentials in the git repo. For complete example please refer to the [github repo](https://github.com/mukezhz/learn/tree/main/api_test).
 

@@ -62,45 +62,49 @@ In REST api we can access header at controller right. Similarly in gRPC we can a
 
 Let’s use curl for request. You are free to use any API testing client for this.
 
-curl -v --location 'http://localhost:8081/v1/todo' \\  
-\--header 'X-Required-Header: required' \\  
-\--header 'X-Alias-Header: alias' \\  
-\--header 'X-Nothing: nothing' \\  
-\--header 'Content-Type: application/json' \\  
-\--data '{  
-"name": "todo",  
-"description": "desc"  
+```
+curl -v --location 'http://localhost:8081/v1/todo' \
+--header 'X-Required-Header: required' \
+--header 'X-Alias-Header: alias' \
+--header 'X-Nothing: nothing' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "todo",
+    "description": "desc"
 }'
+```
 
 It gives following response.
 
-\* Trying \[::1\]:8081...  
-\* Connected to localhost (::1) port 8081  
-> POST /v1/todo HTTP/1.1  
-> Host: localhost:8081  
-> User-Agent: curl/8.4.0  
-> Accept: \*/\*  
-> X-Required-Header: required  
-> X-Alias-Header: alias  
-> X-Nothing: nothing  
-> Content-Type: application/json  
-> Content-Length: 49  
->  
-< HTTP/1.1 200 OK  
-< Content-Type: application/json  
-< Grpc-Metadata-Content-Type: application/grpc  
-< Grpc-Metadata-Location: Nepal  
-< Grpc-Metadata-Timestamp: May 26 20:44:54.264074000  
-< Date: Sun, 26 May 2024 14:59:54 GMT  
-< Content-Length: 93  
-<  
-\* Connection #0 to host localhost left intact  
-{  
-"name": "todo",  
-"description": "desc",  
-"done": false,  
-"id": "00ca0ddb-21a5-4c28-9146-574ff6623f13"  
+```
+* Trying [::1]:8081...
+* Connected to localhost (::1) port 8081
+> POST /v1/todo HTTP/1.1
+> Host: localhost:8081
+> User-Agent: curl/8.4.0
+> Accept: */*
+> X-Required-Header: required
+> X-Alias-Header: alias
+> X-Nothing: nothing
+> Content-Type: application/json
+> Content-Length: 49
+>
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Grpc-Metadata-Content-Type: application/grpc
+< Grpc-Metadata-Location: Nepal
+< Grpc-Metadata-Timestamp: May 26 20:44:54.264074000
+< Date: Sun, 26 May 2024 14:59:54 GMT
+< Content-Length: 93
+<
+* Connection #0 to host localhost left intact
+{
+  "name": "todo",
+  "description": "desc",
+  "done": false,
+  "id": "00ca0ddb-21a5-4c28-9146-574ff6623f13"
 }
+```
 
 From the response you can see that header sent by gRPC has prepended the Grpc-Metadata to the metadata key we have passed.
 

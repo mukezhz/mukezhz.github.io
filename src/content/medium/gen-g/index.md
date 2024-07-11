@@ -46,14 +46,16 @@ There might be a chance that your go/bin directory is not included in your envir
 
 So to add in \*nix operating system you can do the following:
 
-// For zsh: \[Open.zshrc\] & For bash: \[Open .bashrc\]  
-// Add the following:  
-export GO\_HOME="$HOME/go"  
-export PATH="$PATH:$GO\_HOME/bin"  
-  
-// For fish: \[Open config.fish\]  
-// Add the following:  
-fish\_add\_path -aP $HOME/go/bin
+```
+// For zsh: [Open.zshrc] & For bash: [Open .bashrc]
+// Add the following:
+export GO_HOME="$HOME/go"
+export PATH="$PATH:$GO_HOME/bin"
+
+// For fish: [Open config.fish]
+// Add the following:
+fish_add_path -aP $HOME/go/bin
+```
 
 Now after installation, lets create a project:
 
@@ -129,87 +131,93 @@ By coding 😅 xD, jokes apart I am going to explain in short how I develop it.
 * I wanted a project which scaffold a basic template, it was not a problem for me since I already have [template](https://github.com/wesionaryTEAM/go_clean_architecture) and could easily inject variable using text/template.
 * Project scaffolding was easy for me but the main problem was while generating module where I need to import the generated module and inject in fx. The Problem is that the import in go is not as easy as javascript or python import where knowing path lets us import. We need to know project module name to import in golang which is being done by below code.
 
-func GetModuleNameFromGoModFile() (model.GoMod, error) {  
-file, err := os.Open("go.mod")  
-goMod := model.GoMod{}  
-if err != nil {  
-return goMod, err  
-}  
-defer func(file \*os.File) {  
-err := file.Close()  
-if err != nil {  
-panic(err)  
-}  
-}(file)  
-  
-scanner := bufio.NewScanner(file)  
-for scanner.Scan() {  
-line := scanner.Text()  
-if strings.HasPrefix(line, "module ") {  
-// Extract module name  
-parts := strings.Fields(line)  
-if len(parts) >= 2 {  
-goMod.Module = parts\[1\]  
-}  
-} else if strings.HasPrefix(line, "go ") {  
-// Extract Go version  
-parts := strings.Fields(line)  
-if len(parts) >= 2 {  
-goMod.GoVersion = parts\[1\]  
-}  
-}  
-}  
-  
-if err := scanner.Err(); err != nil {  
-return goMod, err  
-}  
-  
-return goMod, nil  
+```
+func GetModuleNameFromGoModFile() (model.GoMod, error) {
+ file, err := os.Open("go.mod")
+ goMod := model.GoMod{}
+ if err != nil {
+  return goMod, err
+ }
+ defer func(file *os.File) {
+  err := file.Close()
+  if err != nil {
+   panic(err)
+  }
+ }(file)
+
+ scanner := bufio.NewScanner(file)
+ for scanner.Scan() {
+  line := scanner.Text()
+  if strings.HasPrefix(line, "module ") {
+   // Extract module name
+   parts := strings.Fields(line)
+   if len(parts) >= 2 {
+    goMod.Module = parts[1]
+   }
+  } else if strings.HasPrefix(line, "go ") {
+   // Extract Go version
+   parts := strings.Fields(line)
+   if len(parts) >= 2 {
+    goMod.GoVersion = parts[1]
+   }
+  }
+ }
+
+ if err := scanner.Err(); err != nil {
+  return goMod, err
+ }
+
+ return goMod, nil
 }
+```
 
 * This was the tricky part, I solve this by using go/ast, where I parse the module.gofile and import the package generated package. You can check it [here](https://github.com/mukezhz/geng/blob/c1b8d12c85448171d740956cfe90e6a088b2f176/pkg/utility/ast.go#L14C9-L14C9).
 
-func ImportPackage(node \*ast.File, projectModule, packageName string) {  
-// currently I have only one template so currently it is hard coded  
-// projectModule:- name of the project module which in inside go.mod  
-// domain:- hard coded value  
-// features:- hard coded value  
-// packageName:- the name of module you want to generate  
-path := filepath.Join(projectModule, "domain", "features", packageName)  
-importSpec := &ast.ImportSpec{  
-Path: &ast.BasicLit{  
-Kind: token.STRING,  
-Value: fmt.Sprintf(\`"%v"\`, path),  
-},  
-}  
-  
-importDecl := &ast.GenDecl{  
-Tok: token.IMPORT,  
-Lparen: token.Pos(1), // for grouping  
-Specs: \[\]ast.Spec{importSpec},  
-}  
-  
-// Check if there are existing imports, and if so, add to them  
-found := false  
-for \_, decl := range node.Decls {  
-genDecl, ok := decl.(\*ast.GenDecl)  
-if ok && genDecl.Tok == token.IMPORT {  
-genDecl.Specs = append(genDecl.Specs, importSpec)  
-found = true  
-break  
-}  
-}  
-  
-// If no import declaration exists, add the new one to Decls  
-if !found {  
-node.Decls = append(\[\]ast.Decl{importDecl}, node.Decls...)  
-}  
+```
+func ImportPackage(node *ast.File, projectModule, packageName string) {
+ // currently I have only one template so currently it is hard coded
+ // projectModule:- name of the project module which in inside go.mod
+ // domain:- hard coded value
+ // features:- hard coded value
+ // packageName:- the name of module you want to generate
+ path := filepath.Join(projectModule, "domain", "features", packageName)
+ importSpec := &ast.ImportSpec{
+  Path: &ast.BasicLit{
+   Kind:  token.STRING,
+   Value: fmt.Sprintf(`"%v"`, path),
+  },
+ }
+
+ importDecl := &ast.GenDecl{
+  Tok:    token.IMPORT,
+  Lparen: token.Pos(1), // for grouping
+  Specs:  []ast.Spec{importSpec},
+ }
+
+ // Check if there are existing imports, and if so, add to them
+ found := false
+ for _, decl := range node.Decls {
+  genDecl, ok := decl.(*ast.GenDecl)
+  if ok && genDecl.Tok == token.IMPORT {
+   genDecl.Specs = append(genDecl.Specs, importSpec)
+   found = true
+   break
+  }
+ }
+
+ // If no import declaration exists, add the new one to Decls
+ if !found {
+  node.Decls = append([]ast.Decl{importDecl}, node.Decls...)
+ }
 }
+```
 
 * Last but not the not the least, The most important part of this project was the following code snippet which embeds the all the files inside template/wesionary directory in the build of the go project. It creates a file system which has the access to those embedded files.
 
-//go:embed templates/wesionary/\*  
+```
+//go:embed templates/wesionary/*
 var templatesFS embed.FS
+```
 
 Complete source code is available [here: geng](https://github.com/mukezhz/geng)
 
