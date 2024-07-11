@@ -167,6 +167,68 @@ I will be using fastapi docs which will fill the value of `bucket_name`, `object
 
 **NOTE:** I have allowed all the origins you might allow certain domain only for security reasons
 
+#### Code to upload file from browser
+```html
+<html>
+...
+<body>
+    <h2>Upload PNG File</h2>
+    <form id="uploadForm">
+      <input type="file" id="fileInput" accept=".png" />
+      <button type="submit">Upload</button>
+    </form>
+    <p id="status"></p>
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const fileInput = document.getElementById("fileInput");
+          const status = document.getElementById("status");
+
+          if (fileInput.files.length === 0) {
+            status.textContent = "Please select a file.";
+            return;
+          }
+
+          const file = fileInput.files[0];
+
+          if (file.type !== "image/png") {
+            status.textContent = "Please upload a PNG file.";
+            return;
+          }
+
+          // Replace this with your actual pre-signed URL
+          const presignedUrl = "PRESIGNED_URL";
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          fetch(presignedUrl, {
+            method: "PUT",
+            body: file,
+            headers: {
+              "Content-Type": "image/png",
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                status.textContent = "File uploaded successfully!";
+              } else {
+                status.textContent = "File upload failed.";
+              }
+            })
+            .catch((error) => {
+              status.textContent = "An error occurred during the upload.";
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
+```
+
 ### Let's access the file
 - Fill the file_name (ie. object_name) 
 ![accessing image from presigned url](/assets/aws/s3/generate-presigned-url-to-get.png)
