@@ -99,7 +99,7 @@ jobs:
         run: |
           git config --local user.email "mukezhz@gmail.com"
           git config --local user.name "Mukesh Kumar Chaudhary"
-          git add src/content/medium/*/index.md
+          git add src/
           git commit -m "Update index.md files with latest content" -a || echo "No changes to commit"
           git push
         env:
