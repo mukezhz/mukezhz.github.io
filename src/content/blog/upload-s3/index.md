@@ -1,5 +1,5 @@
 ---
-title: Upload to aws s3 bucket
+title: Upload files to AWS s3 bucket
 description: |
   Upload the files to the aws s3 bucket.
 date: "July 10 2024"
@@ -11,13 +11,12 @@ image: "/assets/s3_image.png"
 ---
 <img src="/assets/s3_image.png" width="300" height="200"/>
 
-**Upload to s3 bucket**
 
-In order to upload to s3 bucket you just need to follow certain steps:
-- Install aws s3 SDK in order generate presigned URL
-- Generate the presigned URL using SDK, which consists of command:
-  - `put_object` command for upload
-  - `get_object` command for accessing the content
+To upload to an S3 bucket, you just need to follow these steps:
+- Install the AWS S3 SDK to generate a presigned URL.
+- Generate the presigned URL using the SDK, which includes the following commands:
+  - The `put_object` command for uploading
+  - The `get_object` command for accessing the content
 - Use the appropriate command and upload or access the content
 
 
@@ -163,14 +162,15 @@ The client will upload file to backend server and backend server will upload tha
 
 ---
 
-In case you want to learn how to upload file to s3 using NodeJS. 
-
-<a href="https://www.adarsha.dev/blog/aws-s3-nestjs" target="_blank"> Please check </a>
+In case you want to learn how to upload a file to S3 using Node.js, <a href="https://www.adarsha.dev/blog/aws-s3-nestjs" target="_blank"> please check out this article:</a>
 
 --- 
 
 #### Viola 🎉
 
-I have you find this article interesting.
+I hope you find this article interesting.
 
-Thank you for reading!!!
+Thank you for reading!
+
+---
+Let me know if you need any further adjustments!
