@@ -19,6 +19,7 @@ const medium = defineCollection({
     date: z.coerce.date(),
     draft: z.boolean().optional(),
     image: z.string().optional(),
+    link: z.string(),
   }),
 });
 
