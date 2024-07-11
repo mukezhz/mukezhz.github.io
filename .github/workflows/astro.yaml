@@ -9,6 +9,10 @@ on:
   push:
     branches: ["main"]
 
+  # Runs on a schedule (e.g., daily at midnight UTC)
+  schedule:
+    - cron: '0 */6 * * *'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -29,9 +33,82 @@ env:
   # BUILD_PATH: subfolder
 
 jobs:
+  generate-md:
+    name: Generate Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Detect package manager
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=pnpm" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            exit 0
+          elif [ -f "${{ github.workspace }}/package-lock.json" ]; then
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "Unable to determine package manager"
+            exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          cache-dependency-path: ${{ env.BUILD_PATH }}/*lock*
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        working-directory: ${{ env.BUILD_PATH }}
+      
+      - name: Generate md files
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} md
+        working-directory: ${{ env.BUILD_PATH }}
+      
+      - name: Check if any markdown files were modified
+        id: check-md
+        run: |
+          if git diff --quiet --exit-code src/content/medium/*/index.md; then
+            echo "CHANGED=false" >> $GITHUB_ENV
+          else
+            echo "CHANGED=true" >> $GITHUB_ENV
+          fi
+      - name: Commit changes
+        run: |
+          git config --local user.email "mukezhz@gmail.com"
+          git config --local user.name "Mukesh Kumar Chaudhary"
+          git add src/content/medium/*/index.md
+          git commit -m "Update index.md files with latest content" -a || echo "No changes to commit"
+          git push
+        env:
+          CHANGED: ${{ env.CHANGED }}
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs: generate-md
+    if: github.event_name == 'push' || (github.event_name == 'schedule' && needs.generate-md.outputs.CHANGED == 'true')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -80,11 +157,6 @@ jobs:
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-        working-directory: ${{ env.BUILD_PATH }}
-      
-      - name: Generate md files
-        run: |
-          ${{ steps.detect-package-manager.outputs.runner }} md
         working-directory: ${{ env.BUILD_PATH }}
 
       - name: Build with Astro
