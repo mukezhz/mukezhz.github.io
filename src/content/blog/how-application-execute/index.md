@@ -40,7 +40,7 @@ Ans: You just search Firefox and download the executable file and install it and
 
 **Note:**
 
-- When the your software or application or package is at the location from where you OS can execute it is called **Program**
+- When your software, application, or package is located in a place where your OS can execute it, it is called a **program**
 - When you run the `Program` the necessary files are loaded into memory [Primary Memory: RAM] it will become **Process**
 - "Program" in execution is referred to "Process"
 
