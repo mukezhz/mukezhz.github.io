@@ -152,7 +152,7 @@ For more information: [**Bru Tag Reference**](https://docs.usebruno.com/bru-lang
 
 For syntax highlighting support for bru language. [**Syntax Highlighting Support**](https://marketplace.visualstudio.com/items?itemName=bruno-api-client.bruno)**.**
 
-Please read about [**Secrets Management**](https://docs.usebruno.com/secrets-management/overview.html)**,**[**Scripting**](https://docs.usebruno.com/scripting/introduction.html) **and**[**Testing**](https://docs.usebruno.com/testing/introduction.html)**too**
+Please read about [**Secrets Management**](https://docs.usebruno.com/secrets-management/overview.html)**,** [**Scripting**](https://docs.usebruno.com/scripting/introduction.html) **and** [**Testing**](https://docs.usebruno.com/testing/introduction.html)**too**
 
 In **scripting** and **testing** you can use javascript. Bru contains inbuilt libraries and if you need other external javascript libraries you can install that too. Example is given in the docs:
 
@@ -260,7 +260,7 @@ Add bruno.json so that bruno know **the folder** api_test **is a collection**.
 }
 ```
 
-**For faster REST API development I am going to use**[**json-server**](https://github.com/typicode/json-server)**.**
+**For faster REST API development I am going to use** [**json-server**](https://github.com/typicode/json-server)**.**
 
 * **Install** json-server: npm install -g json-server
 * **Create an** employeeDB.json **file and add following content**: touch employeeDB.json
@@ -297,7 +297,7 @@ Add bruno.json so that bruno know **the folder** api_test **is a collection**.
 > The above routes.json file is aliasing the default route to the custom route. Aliasing the route is violating the standard of REST architecture endpoint naming convention but helping us to learn.
 
 * **Run the json-server:** json-server --port 8000 --routes routes.json --watch employeeDB.json
-* **On navigating to the url:**[http://localhost:8000/employees/list](http://localhost:8000/employees/list)
+* **On navigating to the url:** [http://localhost:8000/employees/list](http://localhost:8000/employees/list)
 
 ![](https://cdn-images-1.medium.com/max/1024/1*lSE8gW_MnAFpn8K5QMxrEA.png)
 
