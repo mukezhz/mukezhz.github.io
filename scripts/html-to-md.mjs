@@ -77,9 +77,11 @@ image: "${images?.[0] || ""}"
 
 async function main() {
   const posts = await fetchMediumPosts();
-  for (const post of posts) {
-    const sanitizedTitle = sanitizeTitle(post.title);
-    await saveMarkdownFile(sanitizedTitle, post);
+  if (posts && posts?.length) {
+    for (const post of posts) {
+      const sanitizedTitle = sanitizeTitle(post.title);
+      await saveMarkdownFile(sanitizedTitle, post);
+    }
   }
 }
 
