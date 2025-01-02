@@ -38,6 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      CHANGED: ${{ steps.check-md.outputs.changed }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -93,10 +95,16 @@ jobs:
         id: check-md
         run: |
           if git diff --quiet --exit-code src/content/medium/*/index.md; then
-            echo "CHANGED=false" >> $GITHUB_ENV
+            echo "changed=false" >> $GITHUB_ENV
           else
-            echo "CHANGED=true" >> $GITHUB_ENV
+            echo "changed=true" >> $GITHUB_ENV
           fi
+
+      - name: Set output for CHANGED
+        id: set-output
+        run: |
+          echo "CHANGED=${{ env.changed }}" >> $GITHUB_OUTPUT
+
       - name: Commit changes
         run: |
           git config --local user.email "mukezhz@gmail.com"
@@ -104,8 +112,7 @@ jobs:
           git add src/
           git commit -m "Update index.md files with latest content" -a || echo "No changes to commit"
           git push
-        env:
-          CHANGED: ${{ env.CHANGED }}
+
   build:
     name: Build
     runs-on: ubuntu-latest
