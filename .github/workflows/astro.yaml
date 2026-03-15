@@ -11,7 +11,7 @@ on:
 
   # Runs on a schedule (e.g., daily at midnight UTC)
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: "0 0 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
@@ -85,12 +85,12 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         working-directory: ${{ env.BUILD_PATH }}
-      
+
       - name: Generate md files
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} md
         working-directory: ${{ env.BUILD_PATH }}
-      
+
       - name: Check if any markdown files were modified
         id: check-md
         run: |
@@ -121,7 +121,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
